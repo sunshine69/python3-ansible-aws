@@ -3,7 +3,9 @@ FROM alpine:latest
 RUN apk update \
     && apk upgrade \
     && apk add python3 libffi libffi-dev musl-dev python3-dev openssl-dev gcc make \
-    groff git openssh-client
+    groff git openssh-client \
+    && ln -sf /usr/bin/python3 /usr/bin/python 
 
 RUN pip3 install --upgrade pip \
-    && pip install ansible botocore boto3 boto awscli
+    && pip install ansible botocore boto3 boto awscli \
+	&& rm -rf /root/.cache
