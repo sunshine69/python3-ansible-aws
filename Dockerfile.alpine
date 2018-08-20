@@ -1,0 +1,9 @@
+FROM alpine:latest
+
+RUN apk update \
+    && apk upgrade \
+    && apk add python3 libffi libffi-dev musl-dev python3-dev openssl-dev gcc make \
+    groff git openssh-client
+
+RUN pip3 install --upgrade pip \
+    && pip install ansible botocore boto3 boto awscli
