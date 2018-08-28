@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 RUN apt-get -y update \
     && apt-get -y upgrade \
-    && apt-get install -y python3 python3-pip git \
+    && apt-get install -y python3 python3-pip git rsync \
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && ln -sf /usr/bin/python3 /usr/bin/python
 
