@@ -3,7 +3,7 @@ FROM alpine:latest
 RUN apk update \
     && apk upgrade \
     && apk add python3 libffi libffi-dev musl-dev python3-dev openssl-dev gcc make rsync \
-    groff git openssh-client \
+    groff git openssh-client zip p7zip xz \
     && ln -sf /usr/bin/python3 /usr/bin/python 
 
 RUN pip3 install --upgrade pip \
