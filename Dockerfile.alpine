@@ -2,10 +2,11 @@ FROM alpine:latest
 
 RUN apk update \
     && apk upgrade \
-    && apk add python3 libffi libffi-dev musl-dev python3-dev openssl-dev gcc make rsync \
-    groff git openssh-client zip p7zip xz \
+    && apk add python3 libffi libffi-dev musl-dev python3-dev openssl-dev gcc make rsync vim \
+    groff git openssh-client zip p7zip xz vim \
     && ln -sf /usr/bin/python3 /usr/bin/python 
 
 RUN pip3 install --upgrade pip \
+    && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && pip install ansible botocore boto3 boto awscli \
 	&& rm -rf /root/.cache

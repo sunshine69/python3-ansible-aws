@@ -3,7 +3,7 @@ FROM amd64/clearlinux:latest
 # openssh-server for ssh-keygen and some ssh stuff we need
 # package-utils provide us zip
 RUN swupd update \
-    && swupd bundle-add sysadmin-basic python3-basic openssh-server network-basic package-utils \
+    && swupd bundle-add sysadmin-basic python3-basic openssh-server network-basic package-utils vim \
     && pip install ansible awscli boto botocore boto3 \
     && rm -rf ~/.cache
 

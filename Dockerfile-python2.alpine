@@ -1,0 +1,10 @@
+FROM alpine:latest
+
+RUN apk update \
+    && apk upgrade \
+    && apk add python2 libffi libffi-dev musl-dev python2-dev py2-pip openssl-dev gcc make rsync \
+    groff git openssh-client zip p7zip xz vim
+
+RUN pip install --upgrade pip \
+    && pip install ansible botocore boto3 boto awscli \
+	&& rm -rf /root/.cache
