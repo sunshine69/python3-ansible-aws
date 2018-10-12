@@ -7,7 +7,8 @@ RUN apt-get -y update \
     && ln -sf /usr/bin/python3 /usr/bin/python
 
 RUN pip3 install --upgrade pip \
-    && pip install ansible botocore boto3 boto awscli \
+    && pip install botocore boto3 boto awscli \
+    && pip install ansible=${ANSIBLE_VERSION:2.6.3} \
     && rm -rf ~/.cache
 
 #ENTRYPOINT ["python3"]

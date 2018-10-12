@@ -4,7 +4,8 @@ FROM amd64/clearlinux:latest
 # package-utils provide us zip
 RUN swupd update \
     && swupd bundle-add sysadmin-basic python3-basic openssh-server network-basic package-utils vim \
-    && pip install ansible awscli boto botocore boto3 \
+    && pip install awscli boto botocore boto3 \
+    && pip install ansible=${ANSIBLE_VERSION:2.6.3} \
     && rm -rf ~/.cache
 
 # AWS codebuild does not happy if no passwd entry. Also we have to run git inside with awsbuild

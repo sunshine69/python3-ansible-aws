@@ -7,7 +7,8 @@ RUN swupd update \
     && ln -sf /usr/bin/pip2 /usr/bin/pip \
     && rm -f /usr/bin/python && ln -sf /usr/bin/python2 /usr/bin/python \
     && pip install --upgrade pip \
-    && pip install ansible awscli boto botocore boto3 pyyaml \
+    && pip install awscli boto botocore boto3 pyyaml \
+    && pip install ansible=${ANSIBLE_VERSION:2.6.3} \
     && pip3 install boto botocore boto3 pyyaml \
     && rm -rf ~/.cache
 
