@@ -4,7 +4,7 @@ for base_image in ubuntu:latest alpine:latest amd64/clearlinux:latest; do
     echo docker pull $base_image
 done
 
-ANSIBLE_VERSION=2.7.0
+export ANSIBLE_VERSION=2.7.0
 
 docker build -t xvtsolutions/clearlinux-python3-aws-ansible:${ANSIBLE_VERSION} -f Dockerfile.clearlinux .
 docker tag xvtsolutions/clearlinux-python3-aws-ansible:${ANSIBLE_VERSION} xvtsolutions/clearlinux-python3-aws-ansible:latest
