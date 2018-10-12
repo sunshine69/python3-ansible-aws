@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 for base_image in ubuntu:latest alpine:latest amd64/clearlinux:latest; do
     echo docker pull $base_image

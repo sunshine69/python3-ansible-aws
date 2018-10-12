@@ -9,7 +9,8 @@ RUN apt-get install -y python3 python3-pip git rsync p7zip zip vim \
 
 RUN pip3 install --upgrade pip \
     && pip install botocore boto3 boto awscli \
-    && pip install ansible==$ANSIBLE_VERSION \
-    && rm -rf ~/.cache
+    && pip install ansible==$ANSIBLE_VERSION
+
+RUN apt-get clean && rm -rf ~/.cache
 
 #ENTRYPOINT ["python3"]
