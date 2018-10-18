@@ -13,4 +13,6 @@ RUN pip3 install --upgrade pip \
 
 RUN apt-get clean && rm -rf ~/.cache
 
-#ENTRYPOINT ["python3"]
+COPY assumerole.py /
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]

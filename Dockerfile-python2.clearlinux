@@ -19,3 +19,7 @@ RUN pip install --upgrade pip \
     && pip install ansible==$ANSIBLE_VERSION \
     && pip3 install boto botocore boto3 pyyaml \
     && rm -rf ~/.cache
+
+COPY assumerole.py /
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]

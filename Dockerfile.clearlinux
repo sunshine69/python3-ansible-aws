@@ -15,3 +15,7 @@ RUN swupd bundle-add sysadmin-basic python3-basic openssh-server network-basic p
 RUN pip install awscli boto botocore boto3 \
     && pip install ansible==$ANSIBLE_VERSION \
     && rm -rf ~/.cache
+
+COPY assumerole.py /
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
