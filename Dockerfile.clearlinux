@@ -13,6 +13,8 @@ RUN swupd bundle-add sysadmin-basic python3-basic openssh-server network-basic p
     && swupd clean
 
 RUN pip install awscli boto botocore boto3 \
+    pyotp qrcode[pil] requests pymssql beautifulsoup4 psycopg2 \
+    netaddr pexpect pycrypto \
     && pip install ansible==$ANSIBLE_VERSION \
     && rm -rf ~/.cache
 

@@ -16,6 +16,8 @@ RUN swupd bundle-add sysadmin-basic python2-basic openssh-server network-basic p
 
 RUN pip install --upgrade pip \
     && pip install awscli boto botocore boto3 pyyaml \
+    pyotp qrcode[pil] requests pymssql beautifulsoup4 psycopg2 \
+    netaddr pexpect pycrypto \
     && pip install ansible==$ANSIBLE_VERSION \
     && pip3 install boto botocore boto3 pyyaml \
     && rm -rf ~/.cache
