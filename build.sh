@@ -28,7 +28,5 @@ docker push xvtsolutions/alpine-python3-aws-ansible:latest
 
 docker build --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION -t xvtsolutions/python3-aws-ansible:$ANSIBLE_VERSION -f Dockerfile .
 docker tag xvtsolutions/python3-aws-ansible:$ANSIBLE_VERSION xvtsolutions/python3-aws-ansible:latest
-echo "Push images?"
-read _junk
 docker push xvtsolutions/python3-aws-ansible:$ANSIBLE_VERSION
 docker push xvtsolutions/python3-aws-ansible:latest
