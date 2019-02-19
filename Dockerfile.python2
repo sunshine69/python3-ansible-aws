@@ -1,0 +1,24 @@
+FROM ubuntu:latest
+
+ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.7.7}
+
+RUN apt-get -y update && apt-get -y upgrade 
+RUN apt-get install -y python python-pip git rsync p7zip zip vim \
+    python-dev default-libmysqlclient-dev 
+
+# For pip2 we can not upgrade as we got error after running pip install -U pip. The error is
+# File "/usr/bin/pip", line 9, in <module>
+# from pip import main
+# ImportError: cannot import name main
+
+RUN pip install pyasn1 cryptography --upgrade --force-reinstall \
+    && pip install botocore boto3 boto awscli pywinrm[credssp] requests-credssp \
+    pyotp qrcode[pil] requests pymssql beautifulsoup4 psycopg2 \
+    netaddr pexpect pycrypto cryptography pytz mysqlclient \
+    && pip install ansible==$ANSIBLE_VERSION
+
+RUN apt-get clean && rm -rf ~/.cache
+
+COPY assumerole.py /
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
