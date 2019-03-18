@@ -3,7 +3,7 @@ FROM ubuntu:latest
 ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.6.4}
 
 RUN apt-get -y update && apt-get -y upgrade 
-RUN apt-get install -y python3 python3-pip git rsync p7zip zip vim \
+RUN apt-get install -y python3 python3-pip git rsync p7zip zip vim curl \
     python3-dev default-libmysqlclient-dev \
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && ln -sf /usr/bin/python3 /usr/bin/python

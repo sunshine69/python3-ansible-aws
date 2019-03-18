@@ -3,7 +3,7 @@ FROM ubuntu:latest
 ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.7.7}
 
 RUN apt-get -y update && apt-get -y upgrade 
-RUN apt-get install -y python python-pip git rsync p7zip zip vim \
+RUN apt-get install -y python python-pip git rsync p7zip zip vim curl \
     python-dev default-libmysqlclient-dev 
 
 # For pip2 we can not upgrade as we got error after running pip install -U pip. The error is
