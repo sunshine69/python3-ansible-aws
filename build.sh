@@ -52,5 +52,8 @@ docker push xvtsolutions/python2-aws-ansible:latest
 }
 
 #### Execution
-build_ubuntu
-build_ubuntu_python2
+echo "Edit this and uncomment the image you want to build"
+#build_ubuntu
+#build_ubuntu_python2
+#build_alpine
+#build_alpine_python2

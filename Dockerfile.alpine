@@ -1,9 +1,9 @@
 FROM alpine:latest
 
-ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.7.0}
+ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.7.9}
 
 RUN apk  update && apk  upgrade
-RUN apk  add python3 libffi libffi-dev musl-dev python3-dev curl \
+RUN apk  add python3 libffi libffi-dev musl-dev python3-dev curl iproute2 \
     openssl openssl-dev gcc make rsync vim \
     groff git openssh-client zip p7zip xz vim \
     && ln -sf /usr/bin/python3 /usr/bin/python 
