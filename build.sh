@@ -4,7 +4,7 @@ for base_image in ubuntu:latest alpine:latest amd64/clearlinux:latest; do
     echo docker pull $base_image
 done
 
-export ANSIBLE_VERSION=2.7.9
+export ANSIBLE_VERSION="2.7.10"
 
 build_clearlinux() {
 #docker build --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION -t xvtsolutions/clearlinux-python3-aws-ansible:$ANSIBLE_VERSION -f Dockerfile.clearlinux .
@@ -53,7 +53,7 @@ docker push xvtsolutions/python2-aws-ansible:latest
 
 #### Execution
 echo "Edit this and uncomment the image you want to build"
-#build_ubuntu
-#build_ubuntu_python2
-#build_alpine
-#build_alpine_python2
+build_ubuntu
+build_ubuntu_python2
+build_alpine
+build_alpine_python2

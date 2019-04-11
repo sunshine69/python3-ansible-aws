@@ -11,7 +11,7 @@ RUN apk  add python3 libffi libffi-dev musl-dev python3-dev curl iproute2 \
 RUN pip3 install --upgrade pip \
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && pip install pyasn1 cryptography --upgrade --force-reinstall \
-    && pip install botocore boto3 boto awscli pywinrm[credssp] requests-credssp \
+    && pip install botocore boto3 boto awscli pywinrm[credssp] requests-credssp pyyaml \
     pyotp requests beautifulsoup4 \
     netaddr pexpect pycrypto \
     && pip install ansible==$ANSIBLE_VERSION \
