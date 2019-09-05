@@ -1,19 +1,19 @@
 #!/bin/bash -e
 
 for base_image in ubuntu:latest alpine:latest amd64/clearlinux:latest; do
-    echo docker pull $base_image
+    docker pull $base_image
 done
 
 #export ANSIBLE_VERSION="2.7.11"
 export ANSIBLE_VERSION="2.8.4"
 
 build_clearlinux() {
-#docker build --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION -t xvtsolutions/clearlinux-python3-aws-ansible:$ANSIBLE_VERSION -f Dockerfile.clearlinux .
-#docker tag xvtsolutions/clearlinux-python3-aws-ansible:$ANSIBLE_VERSION xvtsolutions/clearlinux-python3-aws-ansible:latest
-#docker push xvtsolutions/clearlinux-python3-aws-ansible:$ANSIBLE_VERSION
-#docker push xvtsolutions/clearlinux-python3-aws-ansible:latest
-echo "Not supported"
-return
+docker build --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION -t xvtsolutions/clearlinux-python3-aws-ansible:$ANSIBLE_VERSION -f Dockerfile.clearlinux .
+docker tag xvtsolutions/clearlinux-python3-aws-ansible:$ANSIBLE_VERSION xvtsolutions/clearlinux-python3-aws-ansible:latest
+docker push xvtsolutions/clearlinux-python3-aws-ansible:$ANSIBLE_VERSION
+docker push xvtsolutions/clearlinux-python3-aws-ansible:latest
+#echo "Not supported"
+#return
 }
 
 build_alpine() {
@@ -71,3 +71,7 @@ read ans
 echo "Build alpine python2 image? y/n "
 read ans
 [ "$ans" == "y" ] && build_alpine_python2 && ans='n'
+
+echo "Build clearlinux python3 image? y/n "
+read ans
+[ "$ans" == "y" ] && build_clearlinux && ans='n'

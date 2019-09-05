@@ -9,7 +9,7 @@ RUN echo 'root:x:0:0:root:/root:/bin/sh' > /etc/passwd
 # package-utils provide us zip
 RUN swupd update
 
-RUN swupd bundle-add sysadmin-basic python3-basic openssh-server network-basic package-utils vim git \
+RUN swupd bundle-add sysadmin-basic python3-basic openssh-server network-basic package-utils vim git devpkg-postgresql \
     && swupd clean
 
 RUN pip install awscli boto botocore boto3 \
