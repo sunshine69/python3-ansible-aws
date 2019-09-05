@@ -5,7 +5,7 @@ for base_image in ubuntu:latest alpine:latest amd64/clearlinux:latest; do
 done
 
 #export ANSIBLE_VERSION="2.7.11"
-export ANSIBLE_VERSION="2.8.1"
+export ANSIBLE_VERSION="2.8.4"
 
 build_clearlinux() {
 #docker build --build-arg ANSIBLE_VERSION=$ANSIBLE_VERSION -t xvtsolutions/clearlinux-python3-aws-ansible:$ANSIBLE_VERSION -f Dockerfile.clearlinux .

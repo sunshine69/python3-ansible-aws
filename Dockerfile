@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:19.04
 
 ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.7.9}
 
