@@ -1,0 +1,27 @@
+FROM ubuntu:19.04
+
+# this image has openvpn and a helper executable to start the openvpn on a
+# profile file and take option username, password, otp password. The idea is
+# that we can start the CT and then exec several vpn profile within one
+# container.
+
+# the network stack will be used on another container which has complete
+# network routing to needed services using multiple vpn tunnel.
+# Run like this
+#docker run -d -v <your_json_config_dir>:/work \
+#            --cap-add=NET_ADMIN --workdir /work \
+#            --device /dev/net/tun 
+#            --entrypoint /bin/start-vpn
+#            xvtsolutions/xvt-openvpn-client:0.1 \
+#            <your_json_config_file> -exec
+# To get all options of the command start-vpn run with option -help
+
+
+RUN apt-get -y update && apt-get -y upgrade 
+RUN apt-get install -y curl iproute2 telnet inetutils-tools net-tools openvpn
+
+RUN apt-get clean && rm -rf ~/.cache
+
+COPY start-vpn /bin/
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]

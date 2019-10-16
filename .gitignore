@@ -1,0 +1,16 @@
+start-vpn
+*.bak
+*.bz2
+*.7z
+*.gz
+.DS_Store
+*.iml
+*.orig
+*.pyc
+*.swo
+*.swp
+tests/*
+.tmp/
+*.xz
+*.zip
+*.squashfs
