@@ -17,6 +17,12 @@ RUN pip3 install --upgrade pip \
     && pip install ansible==$ANSIBLE_VERSION \
 	&& rm -rf /root/.cache
 
+ADD https://xvt-public-repo.s3-ap-southeast-2.amazonaws.com/pub/devops/nsre-linux-amd64-static /usr/bin/nsre
+
+RUN chmod +x /usr/bin/nsre ; apk cache clean ; rm -rf ~/.cache
+
 COPY assumerole.py /
+# Ugly patch until anisbel pr is merged
+COPY elbv2.py /usr/local/lib/python3.7/dist-packages/ansible/module_utils/aws/elbv2.py
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]

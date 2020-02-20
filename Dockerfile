@@ -15,9 +15,13 @@ RUN pip3 install --upgrade pip \
     netaddr pexpect pycrypto cryptography pytz mysqlclient \
     && pip install ansible==$ANSIBLE_VERSION
 
-RUN apt-get clean && rm -rf ~/.cache
+ADD https://xvt-public-repo.s3-ap-southeast-2.amazonaws.com/pub/devops/nsre-linux-amd64-static /usr/bin/nsre
+
+RUN chmod +x /usr/bin/nsre ; apt-get clean && rm -rf ~/.cache
 
 COPY assumerole.py /
-ADD https://xvt-public-repo.s3-ap-southeast-2.amazonaws.com/pub/devops/nsre-ubuntu-1804-amd64 /usr/bin/nsre
+# Ugly patch until anisbel pr is merged
+COPY elbv2.py /usr/local/lib/python3.7/dist-packages/ansible/module_utils/aws/elbv2.py
+
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
