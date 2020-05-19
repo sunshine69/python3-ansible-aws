@@ -1,5 +1,11 @@
 FROM ubuntu:18.04
 
+# This is to build the docker image stevekieu/python3-cloud-ansible:2.9.9 which is used in the jenkins-helper script.
+# This provides a software evnironment to have the python3 eco system + ansible and cloudtools.
+# For now clouds = aws + azure. I might add more in the future if I need to.
+# The Origin of this file is in the free git repo 
+# https://github.com/sunshine69/python3-cloud-ansible/blob/master/Dockerfile.ubuntu18-aws-azure
+
 ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.9.9}
 
 RUN apt-get -y update && apt-get -y upgrade 
