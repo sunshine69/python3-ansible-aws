@@ -1,28 +1,37 @@
 FROM alpine:latest
 
-ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.7.9}
+ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.9.9}
 
 RUN apk  update && apk  upgrade
 RUN apk  add python3 libffi libffi-dev musl-dev python3-dev curl iproute2 \
     openssl openssl-dev gcc make rsync vim \
-    groff git openssh-client zip p7zip xz vim \
+    groff git openssh-client zip p7zip xz vim sshpass py3-virtualenv \
     && ln -sf /usr/bin/python3 /usr/bin/python 
 
 RUN pip3 install --upgrade pip \
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && pip install pyasn1 cryptography --upgrade --force-reinstall \
     && pip install botocore boto3 boto awscli pywinrm[credssp] requests-credssp pyyaml \
-    pyotp requests beautifulsoup4 \
-    netaddr pexpect pycrypto \
+    pyotp requests beautifulsoup4 netaddr pexpect pycrypto packaging \
+    && pip install ansible[azure] \
     && pip install ansible==$ANSIBLE_VERSION \
 	&& rm -rf /root/.cache
 
-ADD https://xvt-public-repo.s3-ap-southeast-2.amazonaws.com/pub/devops/nsre-linux-amd64-static /usr/bin/nsre
-
-RUN chmod +x /usr/bin/nsre ; apk cache clean ; rm -rf ~/.cache
+# ADD https://xvt-public-repo.s3-ap-southeast-2.amazonaws.com/pub/devops/nsre-linux-amd64-static /usr/bin/nsre
+# RUN chmod +x /usr/bin/nsre ; apk cache clean ; rm -rf ~/.cache
 
 COPY assumerole.py /
 # Ugly patch until anisbel pr is merged
 COPY elbv2.py /usr/local/lib/python3.7/dist-packages/ansible/module_utils/aws/elbv2.py
+
+# Powershell install
+COPY powershell-7.0.1-linux-alpine-x64.tar.gz /tmp/
+
+RUN mkdir -p /opt/microsoft/powershell/7 ; tar zxf /tmp/powershell-7.0.1-linux-alpine-x64.tar.gz -C /opt/microsoft/powershell/7/ ;\
+    chmod +x /opt/microsoft/powershell/7/pwsh ; ln -sf /opt/microsoft/powershell/7/pwsh /usr/bin/pwsh ; \
+    ln -sf /opt/microsoft/powershell/7/pwsh /usr/bin/powershell ; \
+    powershell -Command 'Install-Module -Name Az -AllowClobber -Scope AllUsers -Force'; \
+    rm -f /tmp/powershell-7.0.1-linux-alpine-x64.tar.gz
+
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
