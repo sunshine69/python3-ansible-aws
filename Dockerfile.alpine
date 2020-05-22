@@ -2,9 +2,9 @@ FROM alpine:latest
 
 ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.9.9}
 
-RUN apk  update && apk  upgrade
-RUN apk  add python3 libffi libffi-dev musl-dev python3-dev curl iproute2 \
-    openssl openssl-dev gcc make rsync vim \
+RUN apk --no-cache update && apk  upgrade ; \
+    apk --no-cache  add python3 libffi libffi-dev musl-dev python3-dev curl iproute2 \
+    openssl openssl-dev gcc make rsync vim libintl icu-libs docker \
     groff git openssh-client zip p7zip xz vim sshpass py3-virtualenv \
     && ln -sf /usr/bin/python3 /usr/bin/python 
 
@@ -12,7 +12,7 @@ RUN pip3 install --upgrade pip \
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && pip install pyasn1 cryptography --upgrade --force-reinstall \
     && pip install botocore boto3 boto awscli pywinrm[credssp] requests-credssp pyyaml \
-    pyotp requests beautifulsoup4 netaddr pexpect pycrypto packaging \
+    pyotp requests beautifulsoup4 netaddr pexpect pycrypto packaging docker ipython \
     && pip install ansible[azure] \
     && pip install ansible==$ANSIBLE_VERSION \
 	&& rm -rf /root/.cache
@@ -33,5 +33,7 @@ RUN mkdir -p /opt/microsoft/powershell/7 ; tar zxf /tmp/powershell-7.0.1-linux-a
     powershell -Command 'Install-Module -Name Az -AllowClobber -Scope AllUsers -Force'; \
     rm -f /tmp/powershell-7.0.1-linux-alpine-x64.tar.gz
 
+RUN mkdir /opt/azure-cli-venv ; cd /opt/azure-cli-venv ; virtualenv . ; . bin/activate ; \
+    pip install azure-cli ; ln -sf /opt/azure-cli-venv/bin/az /usr/bin/az
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
