@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 # This is to build the docker image stevekieu/python3-cloud-ansible:2.9.9 which is used in the jenkins-helper script.
 # This provides a software evnironment to have the python3 eco system + ansible and cloudtools.
 # For now clouds = aws + azure. I might add more in the future if I need to.
-# The Origin of this file is in the free git repo 
+# The Origin of this file is in the free git repo, it also contains all supported files
 # https://github.com/sunshine69/python3-cloud-ansible/blob/master/Dockerfile.ubuntu18-aws-azure
 
 ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.9.9}
@@ -42,5 +42,6 @@ RUN mkdir -p /opt/microsoft/powershell/7 ; tar zxf /tmp/powershell-7.0.1-linux-x
     rm -f /tmp/powershell-7.0.1-linux-x64.tar.gz
 
 COPY docker /usr/local/bin/
+COPY run.sh /run.sh
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["/run.sh"]

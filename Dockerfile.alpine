@@ -36,4 +36,6 @@ RUN mkdir -p /opt/microsoft/powershell/7 ; tar zxf /tmp/powershell-7.0.1-linux-a
 RUN mkdir /opt/azure-cli-venv ; cd /opt/azure-cli-venv ; virtualenv . ; . bin/activate ; \
     pip install azure-cli ; ln -sf /opt/azure-cli-venv/bin/az /usr/bin/az
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+COPY run.sh /run.sh
+
+ENTRYPOINT ["/run.sh"]
