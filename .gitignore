@@ -1,4 +1,5 @@
 start-vpn
+kubectl
 *.bak
 *.bz2
 *.7z
