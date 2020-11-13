@@ -12,4 +12,4 @@ The purpose is to build a tested environment to run ansible and cloud tools such
 
 Currently azure-cli and ansible[azure] not playwell with each other, the outcome is that azure-cli must live within virtual env for now.
 
-The latest images I build is `stevekieu/python3-cloud-ansible:2.9.9` and it is built off the file `Dockerfile.ubuntu18-aws-azure`. Others are not mainatained but you can build your own.
+The latest images I build is `stevekieu/python3-cloud-ansible:latest` and it is built off the file `Dockerfile.ubuntu1910-aws-azure`. Others are not mainatained but you can build your own.
