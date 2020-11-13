@@ -6,7 +6,7 @@ FROM ubuntu:19.10
 # The Origin of this file is in the free git repo, it also contains all supported files
 # https://github.com/sunshine69/python3-cloud-ansible/blob/master/Dockerfile.ubuntu18-aws-azure
 
-ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.9.13}
+ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.10.3}
 
 RUN apt-get -y update && apt-get -y upgrade 
 RUN apt-get install -y python3 python3-pip git rsync p7zip zip vim curl iproute2 \
@@ -14,20 +14,19 @@ RUN apt-get install -y python3 python3-pip git rsync p7zip zip vim curl iproute2
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && ln -sf /usr/bin/python3 /usr/bin/python 
 
+COPY requirements-azure.txt assumerole.py /
+
 RUN pip3 install --upgrade pip \
-    && pip install pyasn1 cryptography --upgrade --force-reinstall \
-    && pip install botocore boto3 boto awscli pywinrm[credssp] requests-credssp pyyaml \
+    && pip3 install pyasn1 cryptography --upgrade --force-reinstall \
+    && pip3 install botocore boto3 boto awscli pywinrm[credssp] requests-credssp pyyaml \
     pyotp qrcode[pil] requests pymssql==2.1.4 beautifulsoup4 psycopg2 ipython \
     netaddr pexpect pycrypto cryptography pytz mysqlclient virtualenv packaging \
-    && pip install ansible[azure] \
-    && pip install ansible==$ANSIBLE_VERSION
+    && pip3 install  -r /requirements-azure.txt && pip3 install ansible==$ANSIBLE_VERSION
 
 RUN mkdir /opt/azure-cli-venv ; cd /opt/azure-cli-venv ; virtualenv . ; . bin/activate ; \
-    pip install azure-cli ; ln -sf /opt/azure-cli-venv/bin/az /usr/bin/az ; az extension add --name notification-hub --system
+    pip3 install azure-cli ; ln -sf /opt/azure-cli-venv/bin/az /usr/bin/az ; az extension add --name notification-hub --system
 
-RUN rm -rf /root/.cache /root/.azure ; apt clean ; 
-
-COPY assumerole.py /
+RUN rm -rf /requirements-azure.txt /root/.cache /root/.azure ; apt clean ; 
 
 # Ugly patch until anisbel pr is merged
 COPY elbv2.py /usr/local/lib/python3.6/dist-packages/ansible/module_utils/aws/elbv2.py
@@ -35,12 +34,12 @@ COPY elbv2.py /usr/local/lib/python3.6/dist-packages/ansible/module_utils/aws/el
 # Install powershell 7.0.1 and Azure Powershell Modules. You have to download
 # the archive manually (intentionaly doing so to avoid network trafic)
 
-COPY powershell-7.0.2-linux-x64.tar.gz /tmp/
-RUN mkdir -p /opt/microsoft/powershell/7 ; tar zxf /tmp/powershell-7.0.2-linux-x64.tar.gz -C /opt/microsoft/powershell/7/ ;\
+COPY powershell-7.1.0-linux-x64.tar.gz /tmp/
+RUN mkdir -p /opt/microsoft/powershell/7 ; tar zxf /tmp/powershell-7.1.0-linux-x64.tar.gz -C /opt/microsoft/powershell/7/ ;\
     chmod +x /opt/microsoft/powershell/7/pwsh ; ln -sf /opt/microsoft/powershell/7/pwsh /usr/bin/pwsh ; \
     ln -sf /opt/microsoft/powershell/7/pwsh /usr/bin/powershell ; \
     powershell -Command 'Install-Module -Name Az -AllowClobber -Scope AllUsers -Force'; \
-    rm -f /tmp/powershell-7.0.2-linux-x64.tar.gz
+    rm -f /tmp/powershell-7.1.0-linux-x64.tar.gz
 
 COPY ["docker/docker", "kubectl", "/usr/local/bin/"]
 COPY run.sh /run.sh
