@@ -6,8 +6,8 @@ fi
 
 chmod +x kubectl
 
-if [ ! -f powershell-7.0.2-linux-x64.tar.gz ]; then
-	curl -L -o powershell-7.0.2-linux-x64.tar.gz https://github.com/PowerShell/PowerShell/releases/download/v7.0.2/powershell-7.0.2-linux-x64.tar.gz
+if [ ! -f powershell-7.1.0-linux-x64.tar.gz ]; then
+	curl -L -o powershell-7.1.0-linux-x64.tar.gz https://github.com/PowerShell/PowerShell/releases/download/v7.0.2/powershell-7.1.0-linux-x64.tar.gz
 fi
 
 if [ ! -f docker-19.03.12.tgz ]; then
