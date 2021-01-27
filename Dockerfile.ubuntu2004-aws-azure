@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
 # This is to build the docker image stevekieu/python3-cloud-ansible:2.9.11 which is used in the jenkins-helper script.
 # This provides a software evnironment to have the python3 eco system + ansible and cloudtools.
@@ -8,25 +8,28 @@ FROM ubuntu:19.10
 
 ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.10.6}
 
-RUN apt-get -y update && apt-get -y upgrade 
-RUN apt-get install -y python3 python3-pip git rsync p7zip zip vim curl iproute2 \
-    python3-dev default-libmysqlclient-dev libpq-dev libssl-dev sshpass npm openjdk-11-jre-headless \
+#RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends git cmake g++
+
+RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade 
+RUN DEBIAN_FRONTEND=noninteractive TZ=Australia/Brisbane apt-get install -y python3 python3-pip git rsync p7zip zip vim curl iproute2 \
+    python3-dev default-libmysqlclient-dev libpq-dev libssl-dev sshpass npm openjdk-11-jre-headless grub-pc \
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && ln -sf /usr/bin/python3 /usr/bin/python 
 
 COPY requirements-azure.txt assumerole.py /
 
 RUN pip3 install --upgrade pip \
+    && pip3  install --upgrade cython \
     && pip3 install pyasn1 cryptography --upgrade --force-reinstall \
     && pip3 install botocore boto3 boto awscli pywinrm[credssp] requests-credssp pyyaml \
-    pyotp qrcode[pil] requests pymssql==2.1.4 beautifulsoup4 psycopg2 ipython \
+    pyotp qrcode[pil] requests pymssql==2.1.5 beautifulsoup4 psycopg2 ipython \
     netaddr pexpect pycrypto cryptography pytz mysqlclient virtualenv packaging \
     && pip3 install  -r /requirements-azure.txt && pip3 install ansible==$ANSIBLE_VERSION
 
 RUN mkdir /opt/azure-cli-venv ; cd /opt/azure-cli-venv ; virtualenv . ; . bin/activate ; \
     pip3 install azure-cli ; ln -sf /opt/azure-cli-venv/bin/az /usr/bin/az ; az extension add --name notification-hub --system
 
-RUN rm -rf /requirements-azure.txt /root/.cache /root/.azure ; apt clean ; 
+RUN rm -rf /requirements-azure.txt /root/.cache /root/.azure ; apt install -y grub-efi; apt clean ; rm -rf /var/lib/apt
 
 # Ugly patch until anisbel pr is merged
 COPY elbv2.py /usr/local/lib/python3.6/dist-packages/ansible/module_utils/aws/elbv2.py

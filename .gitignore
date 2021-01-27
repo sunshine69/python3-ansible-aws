@@ -1,5 +1,4 @@
 start-vpn
-kubectl
 *.bak
 *.bz2
 *.7z
@@ -16,3 +15,5 @@ tests/*
 *.zip
 *.squashfs
 docker*
+helm
+kubectl
