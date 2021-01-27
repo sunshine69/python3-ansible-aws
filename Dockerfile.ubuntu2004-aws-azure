@@ -29,8 +29,6 @@ RUN pip3 install --upgrade pip \
 RUN mkdir /opt/azure-cli-venv ; cd /opt/azure-cli-venv ; virtualenv . ; . bin/activate ; \
     pip3 install azure-cli ; ln -sf /opt/azure-cli-venv/bin/az /usr/bin/az ; az extension add --name notification-hub --system
 
-RUN rm -rf /requirements-azure.txt /root/.cache /root/.azure ; apt install -y grub-efi; apt clean ; rm -rf /var/lib/apt
-
 # Ugly patch until anisbel pr is merged
 COPY elbv2.py /usr/local/lib/python3.6/dist-packages/ansible/module_utils/aws/elbv2.py
 
@@ -48,5 +46,7 @@ COPY ["docker/docker", "kubectl", "helm", "/usr/local/bin/"]
 COPY run.sh /run.sh
 
 RUN npm install npm@latest -g && rm -f /usr/bin/npm && ln -sf /usr/local/bin/npm /usr/bin/npm
+
+RUN rm -rf /requirements-azure.txt /root/.cache /root/.azure ; apt install -y grub-efi; apt clean ; rm -rf /var/lib/apt
 
 ENTRYPOINT ["/run.sh"]
