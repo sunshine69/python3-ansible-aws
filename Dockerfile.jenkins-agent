@@ -1,10 +1,12 @@
-FROM ubuntu:20.04
+FROM jenkins/inbound-agent:latest
 
 # This is to build the docker image stevekieu/python3-cloud-ansible:2.9.11 which is used in the jenkins-helper script.
 # This provides a software evnironment to have the python3 eco system + ansible and cloudtools.
 # For now clouds = aws + azure. I might add more in the future if I need to.
 # The Origin of this file is in the free git repo, it also contains all supported files
 # https://github.com/sunshine69/python3-cloud-ansible/blob/master/Dockerfile.ubuntu18-aws-azure
+
+USER root
 
 ARG ANSIBLE_VERSION=${ANSIBLE_VERSION:-2.10.6}
 
@@ -42,10 +44,8 @@ RUN mkdir -p /opt/microsoft/powershell/7 ; tar zxf /tmp/powershell-7.1.0-linux-x
     powershell -Command 'Install-Module -Name Az -AllowClobber -Scope AllUsers -Force'; \
     rm -f /tmp/powershell-7.1.0-linux-x64.tar.gz
 
-COPY ["docker/docker", "kubectl", "helm", "jenkins-agent", "agent.jar", "run.sh", "/usr/local/bin/"]
+COPY ["docker/docker", "kubectl", "helm", "run.sh", "/usr/local/bin/"]
 
 RUN npm install npm@latest -g && rm -f /usr/bin/npm && ln -sf /usr/local/bin/npm /usr/bin/npm
 
 RUN rm -rf /requirements-azure.txt /root/.cache /root/.azure ; apt install -y grub-efi; apt clean ; rm -rf /var/lib/apt
-
-ENTRYPOINT ["/usr/local/bin/jenkins-agent"]
